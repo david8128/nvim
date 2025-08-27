@@ -52,6 +52,8 @@ map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 map("n", "<leader>fn", "<cmd>enew<cr>", { desc = "New file" })
 -- save file
 map("n", "<leader>fs", "<cmd>w<cr>", { desc = "Save file" })
+-- copy file path
+map("n", "<leader>cp", "<cmd>let @+ = expand('%:p')<cr>", { desc = "Copy file path" })
 
 -- search and replace is a pain with a German keyboard layout
 map({ "n" }, "<leader>sr", ":%s/", { desc = "Buffer search and replace" })

@@ -9,6 +9,7 @@ local config = vim.tbl_deep_extend("force", default_config, user_config)
 
 return {
   "iamcco/markdown-preview.nvim",
+  build = 'cd app && npm install',
   enabled = config.enabled,
   cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
   ft = { "markdown" },

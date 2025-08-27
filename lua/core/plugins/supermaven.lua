@@ -2,8 +2,8 @@
 local user_config = vim.g.config.plugins.supermaven or {}
 
 local default_config = {
-  enable = true,
-  autostart = true,
+  enable = false,
+  autostart = false,
   opts = {
     disable_inline_completion = true, -- disables inline completion for use with cmp
   },
