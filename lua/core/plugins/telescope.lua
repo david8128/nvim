@@ -43,6 +43,21 @@ local default_config = {
   fzf_native = true,
   show_untracked_files = false,
   keys = {
+    -- Command and Keymap palettes (shows all commands/keymaps with keybindings)
+    {
+      "<leader>p",
+      function()
+        require("telescope.builtin").commands()
+      end,
+      desc = "Telescope: Commands",
+    },
+    {
+      "<leader>k",
+      function()
+        require("telescope.builtin").keymaps()
+      end,
+      desc = "Telescope: Keymaps",
+    },
     -- Search stuff
     { "<leader>sc", "<cmd>Telescope commands<cr>", desc = "Commands" },
     { "<leader>ss", "<cmd>Telescope live_grep<cr>", desc = "Strings" },
@@ -217,12 +232,30 @@ return {
     "nvim-telescope/telescope.nvim",
     cmd = "Telescope",
     dependencies = {
-      { "telescope-fzf-native.nvim", optional = true },
+      "nvim-lua/plenary.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      "nvim-telescope/telescope-ui-select.nvim",
     },
     keys = config.keys,
-    opts = config.opts,
-    config = function(_, opts)
-      config.config_function(opts)
+    config = function()
+      local themes = require("telescope.themes")
+
+      telescope.setup({
+        defaults = {
+          sorting_strategy = "ascending",
+          layout_config = { prompt_position = "top" },
+        },
+        pickers = {
+          commands = themes.get_dropdown({ previewer = false }),
+          keymaps  = themes.get_dropdown({ previewer = false }),
+        },
+        extensions = {
+          ["ui-select"] = themes.get_dropdown({}),
+        },
+      })
+
+      pcall(telescope.load_extension, "fzf")
+      pcall(telescope.load_extension, "ui-select")
     end,
   },
 
@@ -231,9 +264,6 @@ return {
     enabled = config.fzf_native,
     build = "make",
     lazy = "true",
-    config = function()
-      telescope.load_extension("fzf")
-    end,
   },
 
   {

@@ -1,5 +1,4 @@
 local conf = vim.g.config
-local nvim_lsp = require("lspconfig")
 local utils = require("core.plugins.lsp.utils")
 local lsp_settings = require("core.plugins.lsp.settings")
 
@@ -31,7 +30,7 @@ if conf.plugins.lsp.log == "on" then
 end
 
 for _, lsp in ipairs(conf.lsp_servers) do
-  nvim_lsp[lsp].setup({
+  vim.lsp.config(lsp, {
     before_init = function(_, config)
       if lsp == "pyright" then
         config.settings.python.pythonPath = utils.get_python_path(config.root_dir)
@@ -50,6 +49,9 @@ for _, lsp in ipairs(conf.lsp_servers) do
       yaml = lsp_settings.yaml,
     },
   })
+  if lsp ~= "ltex" then
+    vim.lsp.enable(lsp)
+  end
 end
 
 vim.api.nvim_create_user_command(

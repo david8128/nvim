@@ -14,7 +14,7 @@ return {
     "terraformls",
     "texlab",
     "ts_ls",
-    "typst_lsp",
+    "tinymist",
     "yamlls",
   },
 
